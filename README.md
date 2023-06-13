@@ -115,3 +115,22 @@ Host (device, virtual_chassis, virtual_machine) Access Lists - New Card
 
 Host Interface (vminterface interface) Access Lists - New Card
 ![Host Interface Access Lists - New Card](docs/img/access_list_type_standard.png)
+
+
+# Populate data
+https://github.com/netbox-community/netbox-demo-data
+
+## Drop & recreate the database
+docker-compose exec postgres sh -c 'psql -U $POSTGRES_USER postgres -c "DROP DATABASE netbox;"'
+docker-compose exec postgres sh -c 'psql -U $POSTGRES_USER postgres -c "CREATE DATABASE netbox;"'
+
+## Apply migrations
+docker-compose exec netbox bash -c "source /opt/netbox/venv/bin/activate && ./manage.py migrate"
+
+## Load the demo data
+docker cp netbox-demo-$VERSION.json "$(docker-compose ps -q netbox)":/opt/netbox/netbox/netbox-demo.json
+docker-compose exec netbox bash -c "source /opt/netbox/venv/bin/activate && ./manage.py loaddata netbox-demo.json"
+
+
+https://github.com/ryanmerolle/netbox-acls
+https://github.com/netbox-community/netbox-docker/discussions/746

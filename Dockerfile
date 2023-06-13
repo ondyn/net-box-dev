@@ -1,6 +1,6 @@
 ARG NETBOX_VARIANT=v3.4
 
-FROM netboxcommunity/netbox:${NETBOX_VARIANT}
+FROM netboxcommunity/netbox:$NETBOX_VARIANT
 
 RUN mkdir -pv /plugins/netbox-acls
 COPY . /plugins/netbox-acls
